@@ -89,49 +89,33 @@ jobs:
           
           # 编译k2固件:
           cat >> k2.config <<EOF
+          
           CONFIG_TARGET_ramips=y
           CONFIG_TARGET_ramips_mt7620=y
           CONFIG_TARGET_ramips_mt7620_DEVICE_phicomm_psg1208=y
-          EOF
-          # 常用LuCI插件选择: 添加外面的主题和应用，包是通过diy.sh 脚本进行下载。
-          cat >> .config <<EOF
-          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=n
-          CONFIG_PACKAGE_luci-app-wol=n
-          CONFIG_PACKAGE_luci-app-upnp=n
-          CONFIG_PACKAGE_luci-app-accesscontrol=n
-          CONFIG_PACKAGE_luci-app-ddns=n
-          CONFIG_PACKAGE_luci-app-filetransfer=n
-          CONFIG_PACKAGE_luci-app-unblockneteasemusic-mini=n
-          CONFIG_PACKAGE_luci-app-vsftpd=n
-          CONFIG_PACKAGE_luci-app-vlmcsd=n
-          CONFIG_PACKAGE_luci-app-zerotier=n
-          CONFIG_PACKAGE_luci-app-koolproxyR=n
+          # CONFIG_PACKAGE_ca-certificates is not set
+          # CONFIG_PACKAGE_kmod-crypto-arc4 is not set
+          # CONFIG_PACKAGE_kmod-crypto-ecb is not set
+          # CONFIG_PACKAGE_kmod-crypto-sha1 is not set
+          # CONFIG_PACKAGE_kmod-gpio-button-hotplug is not set
+          # CONFIG_PACKAGE_kmod-gre is not set
+          # CONFIG_PACKAGE_kmod-lib-crc-ccitt is not set
+          # CONFIG_PACKAGE_kmod-ppp is not set
+          # CONFIG_PACKAGE_luci-app-pptp-server is not set
+          # CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray=y
+          # CONFIG_PACKAGE_luci-app-vsftpd is not set
+          # CONFIG_PACKAGE_ppp is not set
+          # CONFIG_PACKAGE_pptpd is not set
+          # CONFIG_PACKAGE_shellsync is not set
+          # CONFIG_PACKAGE_trojan is not set
+          # CONFIG_PACKAGE_v2ray is not set
+          # CONFIG_PACKAGE_vsftpd-alt is not set
           CONFIG_PACKAGE_luci-app-flowoffload=y
-          CONFIG_PACKAGE_luci-theme-argon=y
-          EOF
-          
-          # 打开ipv6:
-          cat >> .config <<EOF
-          CONFIG_KERNEL_IPV6=y
-          CONFIG_KERNEL_IPV6_MULTIPLE_TABLES=y
-          CONFIG_KERNEL_IPV6_SUBTREES=y
-          CONFIG_KERNEL_IPV6_MROUTE=y
-          CONFIG_IPV6=y
-          EOF
-          
-          # 常用软件包:
-          cat >> .config <<EOF
-          CONFIG_PACKAGE_curl=y
-          CONFIG_PACKAGE_htop=y
-          CONFIG_PACKAGE_screen=y
-          CONFIG_PACKAGE_tree=y
-          CONFIG_PACKAGE_vim-fuller=y
-          CONFIG_PACKAGE_wget=y
           EOF
           
           # ========================固件定制部分结束========================
           # 
-          sed -i 's/^[ \t]*//g' ./.config
+          sed -i 's/^[ \t]*//g' ./k2.config
           make defconfig
       - name: Make download
         run: |
@@ -148,7 +132,7 @@ jobs:
           mkdir -p ./artifact/
           find ./bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
           find ./bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-          mv .config ./artifact/
+          mv k2.config ./artifact/
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
