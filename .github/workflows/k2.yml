@@ -80,15 +80,15 @@ jobs:
 
       - name: Costom configure file
         run: |
-          rm -f ./k2.config*
-          touch ./k2.config
+          rm -f ./.config*
+          touch ./.config
           chmod +x $DIY_SH
           ./$DIY_SH
           #
           # ========================固件定制部分========================
           
           # 编译k2固件:
-          cat >> k2.config <<EOF
+          cat >> .config <<EOF
           
           CONFIG_TARGET_ramips=y
           CONFIG_TARGET_ramips_mt7620=y
@@ -115,7 +115,7 @@ jobs:
           
           # ========================固件定制部分结束========================
           # 
-          sed -i 's/^[ \t]*//g' ./k2.config
+          sed -i 's/^[ \t]*//g' ./.config
           make defconfig
       - name: Make download
         run: |
@@ -132,7 +132,7 @@ jobs:
           mkdir -p ./artifact/
           find ./bin/targets/ -name "*combined*img*" | xargs -i mv -f {} ./artifact/
           find ./bin/targets/ -name "*sysupgrade*bin*" | xargs -i mv -f {} ./artifact/
-          mv k2.config ./artifact/
+          mv .config ./artifact/
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
