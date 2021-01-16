@@ -80,15 +80,15 @@ jobs:
 
       - name: Costom configure file
         run: |
-          rm -f ./.config*
-          touch ./.config
+          rm -f ./k2.config*
+          touch ./k2.config
           chmod +x $DIY_SH
           ./$DIY_SH
           #
           # ========================固件定制部分========================
           
           # 编译k2固件:
-          cat >> .config <<EOF
+          cat >> k2.config <<EOF
           CONFIG_TARGET_ramips=y
           CONFIG_TARGET_ramips_mt7620=y
           CONFIG_TARGET_ramips_mt7620_DEVICE_phicomm_psg1208=y
@@ -152,5 +152,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: OpenWrt firmware
+          name: k2
           path: ./artifact/
