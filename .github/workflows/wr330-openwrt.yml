@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: k2 OpenWrt
+name: wr330 OpenWrt
 
 on:
   repository_dispatch:
